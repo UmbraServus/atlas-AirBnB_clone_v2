@@ -1,0 +1,33 @@
+<!-- cities_by_states.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cities by States</title>
+</head>
+
+<body>
+    <h1>States</h1>
+    <ul>
+        {% for state in states %}
+        <li>{{ state.id }}: <b>{{ state.name }}</b>
+            <ul>
+                {% if storage_t == 'db' %}
+                    {% set sorted_cities = state.cities | sort(attribute='name') %}
+                    {% for city in sorted_cities %}
+                        <li>{{ city.id }}: <b>{{ city.name }}</b></li>
+                    {% endfor %}
+                {% else %}
+                    {% set sorted_cities = state.cities.items() | sort %}
+                    {% for city_id, city in sorted_cities %}
+                        <li>{{ city_id }}: <b>{{ city.name }}</b></li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>
